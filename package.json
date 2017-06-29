@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/AttackPattern/node-cqrs-lib.git"
   },
-  "author": "Adam Eilers <adame@attackpattern.com>",
+  "author": "Attack Pattern <hello@attackpattern.com>",
   "license": "MIT",
   "engines": {
     "node": ">=6.9.5"
