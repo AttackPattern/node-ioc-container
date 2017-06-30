@@ -65,6 +65,14 @@ describe('Container', () => {
     expect(resolved.message).to.equal('test message');
   });
 
+  it('should pass container in registered factory callback', () => {
+    const container = new Container();
+    container.register(TestDependency, c => {
+      expect(c).to.equal(container);
+    });
+    container.resolve(TestDependency);
+  });
+
   it('should gracefully fail unregistered named registration', () => {
     const container = new Container();
 

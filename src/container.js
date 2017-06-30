@@ -13,7 +13,7 @@ export default class Container {
 
   resolve = Target => {
     if (this.registrations[Target]) {
-      return this.registrations[Target]();
+      return this.registrations[Target](this);
     }
 
     if (!(Target instanceof constructor)) {
