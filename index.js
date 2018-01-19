@@ -1,2 +1,4 @@
-exports.Container = require('./lib/container').default;
-exports.inject = require('./lib/container').inject;
+Object.assign(exports, {
+  Container: require('./lib/container').default,
+  inject: require('./lib/container').inject
+});
