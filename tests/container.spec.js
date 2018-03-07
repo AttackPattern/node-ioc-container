@@ -91,7 +91,6 @@ describe('Container', () => {
     const container = new Container();
 
     container.register('dependency1', () => 'registered-1');
-    container.register('dependency2', () => 'registered-2');
 
     const resolved = container.resolve(TestClass_WithMultipleStringDependencies, { dependency2: 'supplied' });
 
@@ -102,10 +101,19 @@ describe('Container', () => {
   it('should use supplied type arguments in resolve', () => {
     const container = new Container();
 
-    container.register(TestDependency, () => new TestDependency('registered'));
-
     const resolved = container.resolve(TestClass_WithDependencies, { TestDependency: new TestDependency('supplied') });
     expect(resolved.dependency.message).to.equal('supplied');
+  });
+
+  it('should use supplied array of supplied arguments in resolve', () => {
+    const container = new Container();
+
+    container.register('dependency1', () => 'registered-1');
+
+    const resolved = container.resolve(TestClass_WithMultipleStringDependencies, [ null, 'supplied' ]);
+
+    expect(resolved.dependency1).to.equal('registered-1');
+    expect(resolved.dependency2).to.equal('supplied');
   });
 });
 
