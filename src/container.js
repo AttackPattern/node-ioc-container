@@ -11,7 +11,7 @@ export default class Container {
     this.registrations[Target] = factory;
   }
 
-  resolve = Target => {
+  resolve = (Target, args = {}) => {
     if (this.registrations[Target]) {
       return this.registrations[Target](this);
     }
@@ -20,8 +20,7 @@ export default class Container {
       throw new Error(`Registration not found: "${Target}"`);
     }
 
-    let args = (Target.__ctorArgs || []).map(arg => this.resolve(arg));
-    return new Target(...args);
+    return new Target(...(Target.__ctorArgs || []).map(arg => args[arg] || args[arg?.name] || this.resolve(arg)));
   }
 }
 

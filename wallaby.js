@@ -1,20 +1,19 @@
-module.exports = wallaby => {
-  return {
-    files: [
-      'src/**/*.js',
-    ],
+module.exports = wallaby => ({
+  files: [
+    'src/**/*.js'
+  ],
 
-    tests: [
-      'test/**/*.js'
-    ],
-    env: {
-      type: 'node'
-    },
-    compilers: {
-      '**/*.js': wallaby.compilers.babel()
-    },
-    bootstrap: () => {
-      require('babel-polyfill');
-    }
-  };
-};
+  tests: [
+    'tests/**/*.js'
+  ],
+  env: {
+    type: 'node'
+  },
+  compilers: {
+    '**/*.js': wallaby.compilers.babel({ babelrc: true })
+  },
+  setup: () => {
+    const chai = require('chai');
+    chai.use(require('chai-as-promised'));
+  }
+});

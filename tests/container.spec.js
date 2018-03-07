@@ -5,7 +5,7 @@ chai.use(chaiAsPromised);
 import Container, { inject } from '../src/container.js';
 
 describe('Container', () => {
-  it('should use factory to resolve simple type', async() => {
+  it('should use factory to resolve simple type', async () => {
     const container = new Container();
     let target = new TestClass_EmptyConstructor();
     container.register(TestClass_EmptyConstructor, () => target);
@@ -60,7 +60,7 @@ describe('Container', () => {
     const container = new Container();
     container.register('message', () => 'test message');
 
-    let resolved = container.resolve(TestClass_WithStringRegisteredDependency);
+    let resolved = container.resolve(TestClass_WithStringDependency);
 
     expect(resolved.message).to.equal('test message');
   });
@@ -76,7 +76,7 @@ describe('Container', () => {
   it('should gracefully fail unregistered named registration', () => {
     const container = new Container();
 
-    expect(() => container.resolve(TestClass_WithStringRegisteredDependency))
+    expect(() => container.resolve(TestClass_WithStringDependency))
       .to.throw(Error, 'Registration not found: "message"');
   });
 
@@ -85,6 +85,27 @@ describe('Container', () => {
 
     expect(() => container.register('non-function'))
       .to.throw(Error, 'Container registration \'non-function\' was not a function');
+  });
+
+  it('should use supplied string arguments in resolve', () => {
+    const container = new Container();
+
+    container.register('dependency1', () => 'registered-1');
+    container.register('dependency2', () => 'registered-2');
+
+    const resolved = container.resolve(TestClass_WithMultipleStringDependencies, { dependency2: 'supplied' });
+
+    expect(resolved.dependency1).to.equal('registered-1');
+    expect(resolved.dependency2).to.equal('supplied');
+  });
+
+  it('should use supplied type arguments in resolve', () => {
+    const container = new Container();
+
+    container.register(TestDependency, () => new TestDependency('registered'));
+
+    const resolved = container.resolve(TestClass_WithDependencies, { TestDependency: new TestDependency('supplied') });
+    expect(resolved.dependency.message).to.equal('supplied');
   });
 });
 
@@ -100,7 +121,7 @@ class DerivedTestDependency extends TestDependency {
   }
 }
 
-class TestClass_EmptyConstructor {}
+class TestClass_EmptyConstructor { }
 
 @inject(TestDependency, TestClass_EmptyConstructor)
 class TestClass_WithDependencies {
@@ -111,8 +132,16 @@ class TestClass_WithDependencies {
 }
 
 @inject('message')
-class TestClass_WithStringRegisteredDependency {
+class TestClass_WithStringDependency {
   constructor(message) {
     this.message = message;
+  }
+}
+
+@inject('dependency1', 'dependency2')
+class TestClass_WithMultipleStringDependencies {
+  constructor(dependency1, dependency2) {
+    this.dependency1 = dependency1;
+    this.dependency2 = dependency2;
   }
 }
