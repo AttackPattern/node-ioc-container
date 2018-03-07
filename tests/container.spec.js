@@ -115,6 +115,14 @@ describe('Container', () => {
     expect(resolved.dependency1).to.equal('registered-1');
     expect(resolved.dependency2).to.equal('supplied');
   });
+
+  it('should use supplied array of supplied arguments in resolve without inject', () => {
+    const container = new Container();
+
+    const resolved = container.resolve(TestDependency, [ 'supplied' ]);
+
+    expect(resolved.message).to.equal('supplied');
+  });
 });
 
 class TestDependency {

@@ -20,7 +20,7 @@ export default class Container {
       throw new Error(`Registration not found: "${Target}"`);
     }
 
-    return new Target(...(Target.__ctorArgs || []).map((arg, index) => args[index] || args[arg] || args[arg?.name] || this.resolve(arg)));
+    return new Target(...(Target.__ctorArgs || new Array(args.length || 0).fill(null)).map((arg, index) => args[index] || args[arg] || args[arg?.name] || (arg && this.resolve(arg))));
   }
 }
 
