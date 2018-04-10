@@ -1,5 +1,5 @@
 {
-  "name": "node-ioc-container",
+  "name": "@attackpattern/node-ioc-container",
   "version": "1.1.2",
   "description": "Library with a simple IOC container for node projects",
   "main": "index.js",
