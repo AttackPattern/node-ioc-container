@@ -1,5 +1,5 @@
 {
-  "name": "@attackpattern/node-ioc-container",
+  "name": "@facetdev/node-ioc-container",
   "version": "1.1.5",
   "description": "Library with a simple IOC container for node projects",
   "main": "index.js",
@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/AttackPattern/node-ioc-container.git"
   },
-  "author": "Attack Pattern <hello@attackpattern.com>",
+  "author": "Facet Development <hello@facetdev.com>",
   "license": "MIT",
   "engines": {
     "node": ">=6.9.5"
