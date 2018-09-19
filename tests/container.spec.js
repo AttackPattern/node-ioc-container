@@ -116,6 +116,17 @@ describe('Container', () => {
     expect(resolved.dependency2).to.equal('supplied');
   });
 
+  it('should use registered arguments when some args supplied in resolve', () => {
+    const container = new Container();
+
+    container.register('dependency2', () => 'registered-2');
+
+    const resolved = container.resolve(TestClass_WithMultipleStringDependencies, [ 'supplied' ]);
+
+    expect(resolved.dependency1).to.equal('supplied');
+    expect(resolved.dependency2).to.equal('registered-2');
+  });
+
   it('should use supplied array of supplied arguments in resolve without inject', () => {
     const container = new Container();
 
